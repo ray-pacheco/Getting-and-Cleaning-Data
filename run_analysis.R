@@ -39,8 +39,8 @@ names(x_merge) <- x_names
 
 ## add descriptive activty names to the data set
 activities <- read.table("activity_labels.txt", header=FALSE)
-y_merge <- merge(y_merge, activities)
-names(y_merge) <- c("activity_id", "activity")
+y_merge[,1] <- activities[y_merge[,1],2]
+names(y_merge) <- "activity"
 names(s_merge) <- "subject"
 
 ## create the tidy data set and write to txt file
@@ -53,5 +53,3 @@ variables <- names(tidyset)
 dataMelt <- melt(tidyset, id=c("subject", "activity"), measure.var=x_names)
 meltData <- dcast(dataMelt, subject + activity ~ variable, mean)
 write.table(meltData, "samsung_avg_by_subject.txt")
-
-
